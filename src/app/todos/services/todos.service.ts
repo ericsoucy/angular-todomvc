@@ -7,7 +7,20 @@ import { Todo } from '../types/todo';
 export class TodosService {
   todos$ = new BehaviorSubject<Todo[]>([]);
   filter$ = new BehaviorSubject<Filter>(Filter.all);
+
   constructor() {}
+
+  toggleAll(isCompleted: boolean): void {
+    console.log('toggleAll-isCompleted', isCompleted);
+    const updatedTodos = this.todos$.getValue().map((todo) => {
+      return {
+        ...todo,
+        isCompleted,
+      };
+    });
+    this.todos$.next(updatedTodos);
+    console.log('updatedTodos ', updatedTodos);
+  }
 
   addTodo(text: string): void {
     const newTodo: Todo = {

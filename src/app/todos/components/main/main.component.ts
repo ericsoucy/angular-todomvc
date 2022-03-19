@@ -12,8 +12,18 @@ import { Todo } from '../../types/todo';
 })
 export class MainComponent implements OnInit {
   visibleTodos$!: Observable<Todo[]>;
+  noTodoClass$!: Observable<boolean>;
+  isAllTodosSelected$!: Observable<boolean>;
 
   constructor(private todosService: TodosService) {
+    this.noTodoClass$ = this.todosService.todos$.pipe(
+      map((todos) => todos.length === 0)
+    );
+
+    this.isAllTodosSelected$ = this.todosService.todos$.pipe(
+      map((todos) => todos.every((todo) => todo.isCompleted))
+    );
+
     this.visibleTodos$ = combineLatest([
       this.todosService.todos$,
       this.todosService.filter$,
@@ -31,4 +41,9 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  toggleAllTodos(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.todosService.toggleAll(target.checked);
+  }
 }
