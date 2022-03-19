@@ -5,6 +5,10 @@ import { Todo } from '../types/todo';
 
 @Injectable()
 export class TodosService {
+  changeFilter(filterName: Filter): void {
+    this.filter$.next(filterName);
+  }
+
   todos$ = new BehaviorSubject<Todo[]>([]);
   filter$ = new BehaviorSubject<Filter>(Filter.all);
 

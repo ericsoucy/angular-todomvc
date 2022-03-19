@@ -1,0 +1,34 @@
+<footer class="footer" [ngClass]="{ hidden:noTodoClass$ | async }">
+  <span class="todo-count">
+    <strong>{{ activeCount$ | async }}</strong>
+    {{ itemsLeftText$ | async }}
+  </span>
+  <ul class="filters">
+    <li>
+      <a
+        href="/"
+        [ngClass]="{ selected: (filter$ | async) === filter.all }"
+        (click)="changeFilter($event, filter.all)">
+        All
+      </a>
+    </li>
+    <li>
+      <a
+        href="/"
+        [ngClass]="{ selected: (filter$ | async) === filter.active }"
+        (click)="changeFilter($event, filter.active)">
+        Active
+      </a>
+    </li>
+    <li>
+      <a
+        href="/"
+        [ngClass]="{ selected: (filter$ | async) === filter.completed }"
+        (click)="changeFilter($event, filter.completed)">
+        Completed
+      </a>
+    </li>
+
+  </ul>
+</footer>
+
