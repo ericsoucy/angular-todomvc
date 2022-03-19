@@ -14,6 +14,7 @@ export class MainComponent implements OnInit {
   visibleTodos$!: Observable<Todo[]>;
   noTodoClass$!: Observable<boolean>;
   isAllTodosSelected$!: Observable<boolean>;
+  editingId: string | null = null;
 
   constructor(private todosService: TodosService) {
     this.noTodoClass$ = this.todosService.todos$.pipe(
@@ -45,5 +46,9 @@ export class MainComponent implements OnInit {
   toggleAllTodos(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.todosService.toggleAll(target.checked);
+  }
+
+  setEditingId(editingId: string | null): void {
+    this.editingId = editingId;
   }
 }

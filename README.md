@@ -1,7 +1,7 @@
 # AngularTodomvc
 
 Based on <https://www.youtube.com/watch?v=uyTC0Skvvls&list=WL&index=2>
-
+and <https://todomvc.com/examples/react/#/>
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.6.
 

@@ -5,17 +5,12 @@ import { Todo } from '../types/todo';
 
 @Injectable()
 export class TodosService {
-  changeFilter(filterName: Filter): void {
-    this.filter$.next(filterName);
-  }
-
   todos$ = new BehaviorSubject<Todo[]>([]);
   filter$ = new BehaviorSubject<Filter>(Filter.all);
 
   constructor() {}
 
   toggleAll(isCompleted: boolean): void {
-    console.log('toggleAll-isCompleted', isCompleted);
     const updatedTodos = this.todos$.getValue().map((todo) => {
       return {
         ...todo,
@@ -23,7 +18,19 @@ export class TodosService {
       };
     });
     this.todos$.next(updatedTodos);
-    console.log('updatedTodos ', updatedTodos);
+  }
+
+  toggleTodo(id: string) {
+    const updatedTodos = this.todos$.getValue().map((todo) => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          isCompleted: !todo.isCompleted,
+        };
+      }
+      return todo;
+    });
+    this.todos$.next(updatedTodos);
   }
 
   addTodo(text: string): void {
@@ -33,6 +40,30 @@ export class TodosService {
       isCompleted: false,
     };
     const updatedTodos = [...this.todos$.getValue(), newTodo];
+    this.todos$.next(updatedTodos);
+  }
+
+  changeFilter(filterName: Filter): void {
+    this.filter$.next(filterName);
+  }
+
+  removeTodo(id: string): void {
+    const updatedTodos = this.todos$
+      .getValue()
+      .filter((todo) => todo.id !== id);
+    this.todos$.next(updatedTodos);
+  }
+
+  changeTodo(id: string, text: string): void {
+    const updatedTodos = this.todos$.getValue().map((todo) => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          text,
+        };
+      }
+      return todo;
+    });
     this.todos$.next(updatedTodos);
   }
 }
